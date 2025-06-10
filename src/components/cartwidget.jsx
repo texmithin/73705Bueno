@@ -3,10 +3,10 @@ import { FaShoppingCart } from 'react-icons/fa';
 
 const CartWidget = () => {
   return (
-    <div className="d-flex align-items-center">
-      <FaShoppingCart size={20} />
-      <span className="badge bg-danger ms-2">3</span>
-    </div>
+    <button className="btn btn-outline-light">
+      <FaShoppingCart />
+      <span className="ms-1">3</span>
+    </button>
   );
 };
 

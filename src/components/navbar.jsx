@@ -1,31 +1,24 @@
 import React from 'react';
-import CartWidget from './cartwidget';
+import { Link } from 'react-router-dom';
+import CartWidget from './CartWidget';
 
 const NavBar = () => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4">
-      <div className="container-fluid">
-        <a className="navbar-brand fw-bold fs-4" href="#">BE 3D</a>
-
-        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-          <span className="navbar-toggler-icon"></span>
-        </button>
-
-        <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
-          <ul className="navbar-nav gap-3">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div className="container">
+        <Link className="navbar-brand" to="/">BE 3D</Link>
+        <div className="collapse navbar-collapse">
+          <ul className="navbar-nav mx-auto">
             <li className="nav-item">
-              <a className="nav-link active" href="#">Productos</a>
+              <Link className="nav-link" to="/categoria/juegos">Productos</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">Accesorios</a>
+              <Link className="nav-link" to="/categoria/accesorios">Accesorios</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">Galería</a>
+              <Link className="nav-link" to="/categoria/decoracion">Galería</Link>
             </li>
           </ul>
-        </div>
-
-        <div className="d-flex">
           <CartWidget />
         </div>
       </div>

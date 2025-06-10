@@ -1,10 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { getProductos, getProductosPorCategoria } from '../data/productos';
+import ItemList from './ItemList';
 
-const ItemListContainer = ({ mensaje }) => {
+const ItemListContainer = ({ saludo }) => {
+  const [items, setItems] = useState([]);
+  const { categoriaId } = useParams();
+
+  useEffect(() => {
+    const obtenerProductos = categoriaId ? getProductosPorCategoria : getProductos;
+    const argumento = categoriaId ? categoriaId : undefined;
+
+    obtenerProductos(argumento).then(setItems);
+  }, [categoriaId]);
+
   return (
-    <div className="container text-center my-5">
-      <h2 className="display-5">{mensaje}</h2>
-      <p className="text-muted">¡Muy pronto verás nuestros productos destacados aquí!</p>
+    <div className="container my-4">
+      {saludo && <h2 className="text-center">{saludo}</h2>}
+      <ItemList productos={items} />
     </div>
   );
 };
