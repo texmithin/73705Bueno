@@ -1,19 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getProductoById } from '../data/productos';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../data/firebase';
 import ItemDetail from './ItemDetail';
 
 const ItemDetailContainer = () => {
   const [producto, setProducto] = useState(null);
+  const [loading, setLoading] = useState(true);
   const { id } = useParams();
 
   useEffect(() => {
-    getProductoById(id).then(setProducto);
+    const docRef = doc(db, 'productos', id);
+    getDoc(docRef)
+      .then(resp => {
+        if (resp.exists()) setProducto({ id: resp.id, ...resp.data() });
+      })
+      .finally(() => setLoading(false));
   }, [id]);
 
   return (
     <div className="container my-5">
-      {producto ? <ItemDetail {...producto} /> : <p className="text-center">Cargando producto...</p>}
+      {loading ? <p className="text-center">Cargando producto...</p> : producto && <ItemDetail {...producto} />}
     </div>
   );
 };

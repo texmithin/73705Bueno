@@ -13,8 +13,8 @@ const ItemCount = ({ stock, inicial, onAdd }) => {
         <span className="btn btn-outline-secondary">{cantidad}</span>
         <button className="btn btn-outline-secondary" onClick={aumentar}>+</button>
       </div>
-      <button className="btn btn-dark" onClick={() => onAdd(cantidad)}>
-        Agregar al carrito
+      <button className="btn btn-dark" onClick={() => onAdd(cantidad)} disabled={stock === 0}>
+        {stock === 0 ? 'Sin stock' : 'Agregar al carrito'}
       </button>
     </div>
   );

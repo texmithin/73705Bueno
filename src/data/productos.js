@@ -1,44 +1,24 @@
-const productos = [
-  {
-    id: '1',
-    nombre: 'Base para control PS3',
-    descripcion: 'Soporte impreso en 3D para mando PS3.',
-    precio: 250,
-    categoria: 'accesorios',
-    imagen: 'https://via.placeholder.com/150'
-  },
-  {
-    id: '2',
-    nombre: 'Ajedrez',
-    descripcion: 'Set completo de ajedrez impreso en 3D.',
-    precio: 600,
-    categoria: 'juegos',
-    imagen: 'https://via.placeholder.com/150'
-  },
-  {
-    id: '3',
-    nombre: 'Pikachu 3D',
-    descripcion: 'Figura decorativa de Pikachu impresa en 3D.',
-    precio: 400,
-    categoria: 'decoracion',
-    imagen: 'https://via.placeholder.com/150'
-  }
-];
+import { collection, getDocs, query, where, doc, getDoc } from "firebase/firestore";
+import { db } from "./firebase";
 
-export const getProductos = () => {
-  return new Promise((res) => {
-    setTimeout(() => res(productos), 1000);
-  });
+// Obtener todos los productos
+export const getProductos = async () => {
+  const productosRef = collection(db, "productos");
+  const snapshot = await getDocs(productosRef);
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
 
-export const getProductoById = (id) => {
-  return new Promise((res) => {
-    setTimeout(() => res(productos.find(p => p.id === id)), 1000);
-  });
+// Obtener productos por categoría
+export const getProductosPorCategoria = async (categoriaId) => {
+  const productosRef = collection(db, "productos");
+  const q = query(productosRef, where("categoria", "==", categoriaId));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
 
-export const getProductosPorCategoria = (categoriaId) => {
-  return new Promise((res) => {
-    setTimeout(() => res(productos.filter(p => p.categoria === categoriaId)), 1000);
-  });
+// Obtener producto por ID
+export const getProductoById = async (id) => {
+  const docRef = doc(db, "productos", id);
+  const snapshot = await getDoc(docRef);
+  return { id: snapshot.id, ...snapshot.data() };
 };
